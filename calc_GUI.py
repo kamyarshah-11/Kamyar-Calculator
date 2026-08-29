@@ -4,6 +4,7 @@ import tkinter as tk
 class calc:
 
     colors = {"bg": "#007BA4", "main_frame": "#0DA7BF", "txt": "#ffffff"}
+    res_text = ""
 
     def __init__(self, root):
         self.root = root
@@ -26,12 +27,36 @@ class calc:
         )
 
         self.output_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
-        self.output_lbl.pack(side="left", padx=5, pady=10)
+        self.output_lbl.pack(padx=5, pady=10)
         self.build_button_frame()
 
     def build_button_frame(self):
-        self.button_frame = tk.Frame(self.root, width=50, height=20)
+        self.button_frame = tk.Frame(
+            self.root, width=50, height=20, bg=self.colors["main_frame"]
+        )
         self.button_frame.pack(fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+        row1 = ["AC", "%", "<-", "/"]
+        row2 = [7, 8, 9, "*"]
+        row3 = [4, 5, 6, "-"]
+        row4 = [1, 2, 3, "+"]
+        row5 = ["00", 0, ".", "="]
+
+        rows = [row1, row2, row3, row4, row5]
+
+        for i in range(5):
+            for j in range(4):
+                tk.Button(
+                    self.button_frame,
+                    width=10,
+                    height=3,
+                    text=rows[i][j],
+                    command=lambda txt=rows[i][j]: self.print_button(txt),
+                ).grid(row=i, column=j, padx=6, pady=6)
+
+    def print_button(self, txt):
+        self.output_lbl.config(text=f"{self.res_text}{txt}")
+        self.res_text = f"{self.res_text}{txt}"
 
 
 def main():
